@@ -47,6 +47,6 @@ Syntax: `http://<server>:<port>/multiauth/<database>/facebook`
         </parameters>
     </handler>
       
-Or implement your authentication strategy by implementing `OAuthProviderInterface`
+Or create your authentication strategy by implementing `OAuthProviderInterface`
 
 \* Development stage

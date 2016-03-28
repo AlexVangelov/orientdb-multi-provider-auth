@@ -1,7 +1,7 @@
 /**
-  * @author Alex Vangelov (email--at--data.bg)
-  *
-  */
+ * @author Alex Vangelov (email--at--data.bg)
+ *
+ */
 package orientdb.multiauth;
 
 import com.orientechnologies.orient.server.config.OServerCommandConfiguration;
@@ -13,12 +13,14 @@ import com.orientechnologies.orient.server.network.protocol.http.command.OServer
 public class OServerCommandMultiauth extends OServerCommandAbstract {
 	private static final String[] NAMES = { "GET|multiauth/*" };
 
-	@SuppressWarnings("unused") //TODO implement user identities
-  private String dbUsername;
 	@SuppressWarnings("unused")
-  private String dbPassword;
+	// TODO implement user identities
+	private String dbUsername;
+	@SuppressWarnings("unused")
+	private String dbPassword;
 
-	public OServerCommandMultiauth(final OServerCommandConfiguration iConfiguration) {
+	public OServerCommandMultiauth(
+	    final OServerCommandConfiguration iConfiguration) {
 		for (OServerEntryConfiguration par : iConfiguration.parameters) {
 			if (par.name.equals("oauthUser")) {
 				dbUsername = par.value;
@@ -29,17 +31,21 @@ public class OServerCommandMultiauth extends OServerCommandAbstract {
 	}
 
 	@Override
-	public boolean execute(final OHttpRequest iRequest, OHttpResponse iResponse) throws Exception {
-		String[] urlParts = checkSyntax(iRequest.url, 3, "Syntax error: multiauth/<database>/:provider");
-		
+	public boolean execute(final OHttpRequest iRequest, OHttpResponse iResponse)
+	    throws Exception {
+		String[] urlParts = checkSyntax(iRequest.url, 3,
+		    "Syntax error: multiauth/<database>/:provider");
+
 		String providerName = urlParts[2];
-		
+
 		iRequest.data.commandInfo = "OAuth";
 		OAuthProviderInterface provider = OAuthProvidersManager.get(providerName);
-		provider.setCallbackUrl("http://localhost:2480/multiauth/wef/"+providerName+"/callback"); //TODO replace me / extract host
-		
+		provider.setCallbackUrl("http://localhost:2480/multiauth/wef/"
+		    + providerName + "/callback"); // TODO replace me / extract host
+
 		if (urlParts.length == 3) {
-			iRequest.data.commandDetail = "Authentication request for " + providerName;
+			iRequest.data.commandDetail = "Authentication request for "
+			    + providerName;
 			provider.authRequest(iRequest, iResponse);
 		} else if (urlParts.length > 3 && urlParts[3].equals("callback")) {
 			iRequest.data.commandDetail = "Callback for " + providerName;

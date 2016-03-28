@@ -20,8 +20,10 @@ Register it to the server configuration in `<orientb>/config/orientdb-server-con
 
 Register one or more OAuth2 ready providers (Section `<handlers>`):
 
-Example: 
+Example:
+
 Syntax: `http://<server>:<port>/multiauth/<database>/google`
+
 Syntax: `http://<server>:<port>/multiauth/<database>/facebook`
 
     <handler class="orientdb.multiauth.OAuth2Provider">

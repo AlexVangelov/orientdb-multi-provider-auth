@@ -68,8 +68,10 @@ public class OAuth2Provider extends OServerPluginAbstract implements
 	@Override
 	public void authRequest(OHttpRequest iRequest, OHttpResponse iResponse)
 	    throws IOException {
+		String stateParameter = iRequest.getParameter("state");
+		String state = stateParameter != null ? stateParameter : UUID.randomUUID().toString();
 		String location = authUrl + "?client_id=" + appId + "&redirect_uri="
-		    + callbackUrl + "&scope=" + scope + "&response_type=code";
+		    + callbackUrl + "&scope=" + scope + "&response_type=code&state=" + state;
 		iResponse.send(302, null, null, OHttpUtils.CONTENT_TEXT_PLAIN, "Location: "
 		    + location);
 	}
